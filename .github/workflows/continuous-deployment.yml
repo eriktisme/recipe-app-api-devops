@@ -28,6 +28,15 @@ jobs:
       - name: Validate Terraform
         run: echo "Validate Terraform"
 
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Buid and Push
+        run: echo "Build and Push Docker image"
+        if: github.ref == 'refs/heads/master'
+
   plan:
     runs-on: ubuntu-latest
 
