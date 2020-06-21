@@ -30,12 +30,12 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
 
     steps:
       - uses: actions/checkout@v2
       - name: Buid and Push
         run: echo "Build and Push Docker image"
-        if: github.ref == 'refs/heads/master'
 
   plan:
     runs-on: ubuntu-latest
