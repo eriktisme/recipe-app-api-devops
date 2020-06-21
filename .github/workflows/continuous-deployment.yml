@@ -41,8 +41,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
       - name: Buid and Push
-        run: echo "Build and Push Docker image"
+        env:
+          ECR_REPO: ${{ secrets.ECR_REPO }}
+          COMMIT_SHORT_SHA: $(git rev-parse --short=8 ${{ github.sha }})
+        run: |
+          docker build --compress -t $ECR_REPO:$COMMIT_SHORT_SHA .
+          docker push $ECR_REPO:$COMMIT_SHORT_SHA
+          docker tag $ECR_REPO:$COMMIT_SHORT_SHA $ECR_REPO:latest
+          docker push $ECR_REPO:latest
 
   plan:
     runs-on: ubuntu-latest
