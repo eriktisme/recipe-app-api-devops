@@ -25,8 +25,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.21
       - name: Validate Terraform
-        run: echo "Validate Terraform"
+        run: |
+          cd deploy/
+          terraform init -backend=false
+          terraform validate -no-color
+          terraform fmt -check
 
   build:
     runs-on: ubuntu-latest
