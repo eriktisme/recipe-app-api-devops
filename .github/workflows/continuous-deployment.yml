@@ -53,7 +53,7 @@ jobs:
       - name: Buid and Push
         env:
           ECR_REPO: ${{ secrets.ECR_REPO }}
-          COMMIT_SHORT_SHA: ${{ github.sha::8 }}
+          COMMIT_SHORT_SHA: ${GITHUB_SHA::8}
         run: |
           docker build --compress -t $ECR_REPO:$COMMIT_SHORT_SHA .
           docker push $ECR_REPO:$COMMIT_SHORT_SHA
