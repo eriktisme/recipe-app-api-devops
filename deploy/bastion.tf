@@ -29,6 +29,8 @@ resource "aws_instance" "bastion" {
   instance_type        = "t2.micro"
   user_data            = file("./templates/bastion/user-data.sh")
   iam_instance_profile = aws_iam_instance_profile.bastion.name
+  key_name             = var.bastion_key_name
+  subnet_id            = aws_subnet.public_a.id
 
   tags = merge(
     local.common_tags,
