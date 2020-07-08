@@ -16,11 +16,15 @@ resource "aws_security_group" "rds" {
   name        = "${local.prefix}-rds-inbound-access"
   vpc_id      = aws_vpc.main.id
 
-  # ingress is inbound access / engress is outbound access 
+  # ingress is inbound access / egress is outbound access 
   ingress {
     protocol  = "tcp"
     from_port = 5432
     to_port   = 5432
+
+    security_groups = [
+      aws_security_group.bastion.id
+    ]
   }
 
   tags = local.common_tags
