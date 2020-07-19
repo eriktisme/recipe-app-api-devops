@@ -46,7 +46,7 @@ data "template_file" "api_container_definitions" {
     db_user           = aws_db_instance.main.username
     db_pass           = aws_db_instance.main.password
     log_group_name    = aws_cloudwatch_log_group.ecs_task_logs.name
-    log_group_name    = data.aws_region.current.name
+    log_group_region  = data.aws_region.current.name
     allowed_hosts     = "*"
   }
 }
