@@ -47,7 +47,7 @@ data "template_file" "api_container_definitions" {
     db_pass                  = aws_db_instance.main.password
     log_group_name           = aws_cloudwatch_log_group.ecs_task_logs.name
     log_group_region         = data.aws_region.current.name
-    allowed_hosts            = aws_lb.api.dns_name
+    allowed_hosts            = aws_route53_record.app.fqdn
     s3_storage_bucket_name   = aws_s3_bucket.app_public_files.bucket
     s3_storage_bucket_region = data.aws_region.current.name
   }
@@ -124,6 +124,8 @@ resource "aws_ecs_service" "api" {
     container_name   = "proxy"
     container_port   = 8000
   }
+
+  depends_on = [aws_lb_listener.api_https]
 }
 
 data "template_file" "ecs_s3_write_policy" {
