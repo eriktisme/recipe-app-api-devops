@@ -18,6 +18,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=supersecretpassword
       - DEBUG=1
+      - S3_STORAGE_BACKEND=0
     depends_on:
       - db
 
